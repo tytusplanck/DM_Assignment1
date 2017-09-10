@@ -9,4 +9,4 @@ with open('income_tr.csv', 'rb') as csvfile:
         for item in row:
             dataRow.append(item)
         data.append(dataRow)
-print data
+print data[1][0]
