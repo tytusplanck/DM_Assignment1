@@ -17,6 +17,7 @@ def getCSVData():
                 dataRow.append(item)
             data.append(dataRow)
     print data[1][0]
+    return data
 
 
 def defineK():
@@ -28,7 +29,7 @@ def generateApproximationMatrix(k, data):
 # This will call the function that will find all approximations for one instance. It will loop this so it can have an array of approximations for all instances.
     index = 0
     approximationMatrix = []
-    while index < data.__len__
+    while index < len(data):
         approximationMatrix[index] = approximateOneInstance(data, index)
         index = index + 1
     return approximationMatrix #returns array of approximations for each
@@ -38,9 +39,9 @@ def approximateOneInstance(data, currentInstance):
     instanceIndex = 0
     # Array of 520 floats containing the approximation to current instance for each object.
     approximationArray = []
-    while instanceIndex < data.__len__
+    while instanceIndex < len(data):
         approximationArray[instanceIndex] = findRowApproximation(
-            data[instanceIndex], data[currentIndex])
+            data[instanceIndex], data[currentInstance])
         instanceIndex = instanceIndex + 1
     return approximationArray #Will return an array of the approximation of each instance to the current one
 
