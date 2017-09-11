@@ -58,7 +58,8 @@ def findRowApproximation(row1, row2):
     totalApproximation = 0
     smc = getSMCProximity(row1, row2)
     euc = getEuclidianProximation(row1, row2)
-    totalApproximation = ((8 * smc) + (4 * euc)) / 12.0 
+    jac = getJaccardProximation(row1, row2)
+    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 14.0 
     return totalApproximation
 
 # Function Definition
