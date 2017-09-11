@@ -119,7 +119,9 @@ def getEuclidianProximation(row1, row2):
 
 
 def printResults(results):
-    print results
+    with open("output.csv", "wb") as f:
+        writer = csv.writer(f)
+        writer.writerows(results)
 
 
 def main():
