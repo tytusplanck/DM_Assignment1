@@ -55,11 +55,10 @@ def approximateOneInstance(data, index):
 
 # Function Definition
 def findRowApproximation(row1, row2):
-    totalApproximation = 0
     smc = getSMCProximity(row1, row2)
     euc = getEuclidianProximation(row1, row2)
     jac = getJaccardProximation(row1, row2)
-    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 14.0 
+    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 8.0 
     return totalApproximation
 
 # Function Definition
@@ -116,34 +115,36 @@ def getSMCProximity(row1, row2):
     else:
         total = total + 1
 
-    return match / total  # Calculates the SMC Proximation
+    return 1 - (match / total)  # Calculates the SMC Proximation
 
 # Function Definition
 
 
 def getEuclidianProximation(row1, row2):
-    euc = (int(row1[1]) - int(row2[1]))**2 + (int(row1[3]) - int(row2[3]))**2 + (int(row1[5]) - int(row2[5]))**2 + (int(row1[13]) - int(row2[13]))**2 
-    return euc
+    euc = (int(row1[1]) / 82 - int(row2[1]) / 82)**2 + (int(row1[3]) / 632613 - int(row2[3]) / 632613)**2 + (int(row1[5]) / 16 - int(row2[5]) / 16)**2 + (int(row1[13]) - int(row2[13]) / 99)**2 
+    return math.sqrt(euc)
 
 
 def getJaccardProximation(row1, row2):
     M01 = 0
     M10 = 0
     M11 = 0
-    if(row1[11] >= 1 and row2[11] == 0):
+    if(int(row1[11]) >= 1 and int(row2[11]) == 0):
         M10 += 1
-    if(row1[12] >= 1 and row2[12] == 0):
+    if(int(row1[12]) >= 1 and int(row2[12]) == 0):
         M10 += 1
-    if(row1[11] == 0 and row2[11] >= 1):
+    if(int(row1[11]) == 0 and int(row2[11]) >= 1):
         M01 += 1
-    if(row1[12] == 0 and row2[12] >= 1):
+    if(int(row1[12]) == 0 and int(row2[12]) >= 1):
         M01 += 1
-    if(row1[11] == row2[11] and row1[11] >= 1):
+    if(int(row1[11]) == int(row2[11]) and int(row1[11]) >= 1):
         M11 += 1
-    if(row1[12] == row2[12] and row1[12] >= 1):
+    if(int(row1[12]) == int(row2[12]) and int(row1[12]) >= 1):
         M11 += 1
 
-    jaccard = M11 / (M01 + M10 + M11)
+    jaccard = 0
+    if (M01 + M10 + M11) != 0:
+        jaccard = M11 / (M01 + M10 + M11)
 
     return jaccard
 
