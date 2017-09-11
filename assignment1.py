@@ -21,18 +21,18 @@ def getCSVData():
             for item in row:
                 dataRow.append(item)
             data.append(dataRow)
-    print data[1][0]
     return data
 
 
 #Function Definition
 def generateApproximationMatrix(k, data):
     # This will call the function that will find all approximations for one instance. It will loop this so it can have an array of approximations for all instances.
-    index = 0
+    index = 1
     approximationMatrix = []
     while index < len(data):
         approximationMatrix.append(approximateOneInstance(data, index))
         index = index + 1
+    printResults(approximationMatrix)
     return approximationMatrix  # returns array of approximations for each
 
 # Will Take one instance and find all of the approximations to the other instances
@@ -40,7 +40,7 @@ def generateApproximationMatrix(k, data):
 
 #Function Definition
 def approximateOneInstance(data, index):
-    instanceIndex = 0
+    instanceIndex = 1
     # Array of 520 floats containing the approximation to current instance for each object.
     approximationArray = []
     while instanceIndex < len(data):
@@ -54,8 +54,11 @@ def approximateOneInstance(data, index):
 
 #Function Definition
 def findRowApproximation(row1, row2):
+    totalApproximation = 0
     smc = getSMCProximity(row1, row2)
-    return smc
+    euc = getEuclidianProximation(row1, row2)
+    totalApproximation = ((8 * smc) + (4 * euc)) / 12.0 
+    return totalApproximation
 
 #Function Definition
 def getSMCProximity(row1, row2):
@@ -79,11 +82,6 @@ def getSMCProximity(row1, row2):
     else:
         total = total + 1
     if (row1[7] == row2[7]):
-        match = match + 1
-        total = total + 1
-    else:
-        total = total + 1
-    if (row1[8] == row2[8]):
         match = match + 1
         total = total + 1
     else:
@@ -118,8 +116,8 @@ def getSMCProximity(row1, row2):
 
 #Function Definition
 def getEuclidianProximation(row1, row2):
-    euc = 0
-    return math.sqrt(euc)
+    euc = (int(row1[1]) - int(row2[1]))**2 + (int(row1[3]) - int(row2[3]))**2 + (int(row1[5]) - int(row2[5]))**2 + (int(row1[13]) - int(row2[13]))**2 
+    return euc
 
 #Function Definition
 def printResults(results):
@@ -131,9 +129,7 @@ def printResults(results):
 def main():
     k = defineK()
     data = getCSVData()
-    print len(data)
     generateApproximationMatrix(k, data)
-
 
 if __name__ == "__main__":
     main()
