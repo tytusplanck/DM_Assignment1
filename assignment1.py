@@ -48,6 +48,7 @@ def approximateOneInstance(data, currentInstance):
 #Takes one row of the table and finds it's approximation to the other.
 def findRowApproximation( row1, row2 ):
     smc = getSMCProximity(row1, row2)
+    return smc
 
 def getSMCProximity (row1, row2):
     #Need to determine you can compare strings in python this way
