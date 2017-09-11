@@ -4,14 +4,14 @@ import csv
 import math
 
 
-#Function Definition
+# Function Definition
 def defineK():
     # Asks User to define a value for K and then saves it.
     x = 5
     return x
 
 
-#Function Definition
+# Function Definition
 def getCSVData():
     data = []
     with open('income_tr.csv', 'rb') as csvfile:
@@ -24,7 +24,7 @@ def getCSVData():
     return data
 
 
-#Function Definition
+# Function Definition
 def generateApproximationMatrix(k, data):
     # This will call the function that will find all approximations for one instance. It will loop this so it can have an array of approximations for all instances.
     index = 1
@@ -38,13 +38,14 @@ def generateApproximationMatrix(k, data):
 # Will Take one instance and find all of the approximations to the other instances
 
 
-#Function Definition
+# Function Definition
 def approximateOneInstance(data, index):
     instanceIndex = 1
     # Array of 520 floats containing the approximation to current instance for each object.
     approximationArray = []
     while instanceIndex < len(data):
-        approximationArray.append(findRowApproximation(data[instanceIndex], data[index]))
+        approximationArray.append(findRowApproximation(
+            data[instanceIndex], data[index]))
         instanceIndex = instanceIndex + 1
     # Will return an array of the approximation of each instance to the current one
     return approximationArray
@@ -52,7 +53,7 @@ def approximateOneInstance(data, index):
 # Takes one row of the table and finds it's approximation to the other.
 
 
-#Function Definition
+# Function Definition
 def findRowApproximation(row1, row2):
     totalApproximation = 0
     smc = getSMCProximity(row1, row2)
@@ -60,7 +61,9 @@ def findRowApproximation(row1, row2):
     totalApproximation = ((8 * smc) + (4 * euc)) / 12.0 
     return totalApproximation
 
-#Function Definition
+# Function Definition
+
+
 def getSMCProximity(row1, row2):
     # Need to determine you can compare strings in python this way
     match = 0.0
@@ -114,18 +117,46 @@ def getSMCProximity(row1, row2):
 
     return match / total  # Calculates the SMC Proximation
 
-#Function Definition
+# Function Definition
+
+
 def getEuclidianProximation(row1, row2):
     euc = (int(row1[1]) - int(row2[1]))**2 + (int(row1[3]) - int(row2[3]))**2 + (int(row1[5]) - int(row2[5]))**2 + (int(row1[13]) - int(row2[13]))**2 
     return euc
 
-#Function Definition
+
+def getJaccardProximation(row1, row2):
+    M01 = 0
+    M10 = 0
+    M11 = 0
+    if(row1[11] >= 1 and row2[11] == 0):
+        M10 += 1
+    if(row1[12] >= 1 and row2[12] == 0):
+        M10 += 1
+    if(row1[11] == 0 and row2[11] >= 1):
+        M01 += 1
+    if(row1[12] == 0 and row2[12] >= 1):
+        M01 += 1
+    if(row1[11] == row2[11] and row1[11] >= 1):
+        M11 += 1
+    if(row1[12] == row2[12] and row1[12] >= 1):
+        M11 += 1
+
+    jaccard = M11 / (M01 + M10 + M11)
+
+    return jaccard
+
+# Function Definition
+
+
 def printResults(results):
     with open("output.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(results)
 
-#Function Definition
+# Function Definition
+
+
 def main():
     k = defineK()
     data = getCSVData()
