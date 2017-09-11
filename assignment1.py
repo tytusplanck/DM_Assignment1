@@ -36,9 +36,6 @@ def generateApproximationMatrix(k, data):
     return approximationMatrix  # returns array of approximations for each
 
 # Will Take one instance and find all of the approximations to the other instances
-
-
-# Function Definition
 def approximateOneInstance(data, index):
     instanceIndex = 1
     # Array of 520 floats containing the approximation to current instance for each object.
@@ -56,9 +53,11 @@ def approximateOneInstance(data, index):
 # Function Definition
 def findRowApproximation(row1, row2):
     smc = getSMCProximity(row1, row2)
+    smc = 0
     euc = getEuclidianProximation(row1, row2)
     jac = getJaccardProximation(row1, row2)
-    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 8.0 
+    jac = 0
+    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 4.0
     return totalApproximation
 
 # Function Definition
@@ -121,7 +120,7 @@ def getSMCProximity(row1, row2):
 
 
 def getEuclidianProximation(row1, row2):
-    euc = (int(row1[1]) / 82 - int(row2[1]) / 82)**2 + (int(row1[3]) / 632613 - int(row2[3]) / 632613)**2 + (int(row1[5]) / 16 - int(row2[5]) / 16)**2 + (int(row1[13]) - int(row2[13]) / 99)**2 
+    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / 632613.0) - (float(row2[3]) / 632613.0))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / 99.0) - (float(row2[13]) / 99.0))**2 
     return math.sqrt(euc)
 
 
