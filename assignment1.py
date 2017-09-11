@@ -31,7 +31,7 @@ def generateApproximationMatrix(k, data):
     index = 0
     approximationMatrix = []
     while index < len(data):
-        approximationMatrix[index] = approximateOneInstance(data, index)
+        approximationMatrix.append(approximateOneInstance(data, index))
         index = index + 1
     return approximationMatrix  # returns array of approximations for each
 
@@ -43,8 +43,8 @@ def approximateOneInstance(data, index):
     instanceIndex = 0
     # Array of 520 floats containing the approximation to current instance for each object.
     approximationArray = []
-    while instanceIndex < 2: #while instanceIndex < len(data):
-        approximationArray[instanceIndex] = findRowApproximation(data[instanceIndex], data[index])
+    while instanceIndex < len(data):
+        approximationArray.append(findRowApproximation(data[instanceIndex], data[index]))
         instanceIndex = instanceIndex + 1
     # Will return an array of the approximation of each instance to the current one
     return approximationArray
