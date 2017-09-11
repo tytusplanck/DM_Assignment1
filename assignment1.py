@@ -31,8 +31,17 @@ def generateApproximationMatrix( k, data) {
 #Will Take one instance and find all of the approximations to the other instances
 def approximateOneInstance( data, currentInstance) {
 
+    instanceIndex = 0
+    approximationArray = []     #Array of 520 floats containing the approximation to current instance for each object.
+    while instanceIndex < data.__len__
+        approximationArray[instanceIndex] = findRowApproximation(data[instanceIndex], data[currentIndex])
+        instanceIndex = instanceIndex + 1
+    return approximationArray #Will return an array of the approximation of each instance to the current one.
+}
+
+#Takes one row of the table and finds it's approximation to the other.
+def findRowApproximation( row1, row2 ) {
     
-    return []; #Will return an array of the approximation of each instance to the current one.
 }
 
 def main():
