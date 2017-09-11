@@ -23,13 +23,13 @@ def generateApproximationMatrix( k, data) {
     index = 0
     approximationMatrix = []
     while index < data.__len__
-        approximationMatrix[index] = approximateOneInstance(data[index])
+        approximationMatrix[index] = approximateOneInstance(data, index)
         index = index + 1
     return approximationMatrix #returns array of approximations for each
 }
 
 #Will Take one instance and find all of the approximations to the other instances
-def approximateOneInstance( index, instanceOfData) {
+def approximateOneInstance( data, currentInstance) {
 
     
     return []; #Will return an array of the approximation of each instance to the current one.
