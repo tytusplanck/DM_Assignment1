@@ -29,10 +29,12 @@ def generateApproximationMatrix(k, data):
     # This will call the function that will find all approximations for one instance. It will loop this so it can have an array of approximations for all instances.
     index = 1
     approximationMatrix = []
+    resultsMatrix = []
     while index < len(data):
         approximationMatrix.append(approximateOneInstance(data, index))
         index = index + 1
-    printResults(approximationMatrix)
+    resultsMatrix = getFormattedResults(approximationMatrix, k)
+    printResults(resultsMatrix)
     return approximationMatrix  # returns array of approximations for each
 
 # Will Take one instance and find all of the approximations to the other instances
@@ -59,9 +61,6 @@ def findRowApproximation(row1, row2):
     jac = 0
     totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 4.0
     return totalApproximation
-
-# Function Definition
-
 
 def getSMCProximity(row1, row2):
     # Need to determine you can compare strings in python this way
@@ -120,9 +119,12 @@ def getSMCProximity(row1, row2):
 
 
 def getEuclidianProximation(row1, row2):
-    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / 632613.0) - (float(row2[3]) / 632613.0))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / 99.0) - (float(row2[13]) / 99.0))**2 
-    return math.sqrt(euc)
+    fnlwgt95 = 378460.0 #This is the 95th percentile value for the fnlwgt attribute
+    weeklyHours95 = 60.0 #This is the 95th percentile value for the hours per week attribute
+    #These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
 
+    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt95) - (float(row2[3]) / fnlwgt95))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours95) - (float(row2[13]) / weeklyHours95))**2 
+    return math.sqrt(euc)
 
 def getJaccardProximation(row1, row2):
     M01 = 0
@@ -149,6 +151,43 @@ def getJaccardProximation(row1, row2):
 
 # Function Definition
 
+def getFormattedResults(approximationMatrix, k):
+    results = []
+    header = ["Transaction ID"]
+    count = 1
+    while count <= k:
+        header.append(count)
+        header.append("prox")
+        count = count + 1
+    results.append(header)
+    outerCounter = 0
+    while outerCounter < len(approximationMatrix):
+
+        sortedRow = approximationMatrix[outerCounter]
+        sortedRow.sort()
+        sizeKRow = []
+        IDList = []
+        kIndex = 0
+        while kIndex < k:
+            sizeKRow.append(sortedRow[kIndex + 1]) #doing plus one will exclude the proximation to itself
+            kIndex = kIndex + 1
+        counter = 0
+        while counter < len(sizeKRow):
+            x = 0
+            while x < len(sortedRow):
+                if sizeKRow[counter] == sortedRow[x]:
+                    IDList.append(counter)
+                x = x + 1
+            counter = counter + 1
+        y = 0
+        singleResultsRow = [outerCounter]
+        while y < len(IDList):
+            singleResultsRow.append(IDList[y])
+            singleResultsRow.append(sizeKRow[y])
+            y = y + 1
+        results.append(singleResultsRow)
+        outerCounter = outerCounter + 1
+    return results
 
 def printResults(results):
     with open("output.csv", "wb") as f:
