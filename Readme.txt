@@ -11,4 +11,5 @@ line and type "bash BashScript". You will be prompted to give a value for
 K and the script will kick off our Python program.
 
 The ouput.csv containing our results will simply be dumped into the exact
-same directory that held the other files.
+same directory that held the other files. The best way to view this result data
+would be using Microsft Excel or other similiar programs.
