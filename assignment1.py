@@ -2,13 +2,7 @@
 # Tytus Planck and Kyle Rossman
 import csv
 import math
-
-
-# Function Definition
-def defineK():
-    # Asks User to define a value for K and then saves it.
-    x = 5
-    return x
+import sys
 
 
 # Function Definition
@@ -38,6 +32,8 @@ def generateApproximationMatrix(k, data):
     return approximationMatrix  # returns array of approximations for each
 
 # Will Take one instance and find all of the approximations to the other instances
+
+
 def approximateOneInstance(data, index):
     instanceIndex = 1
     # Array of 520 floats containing the approximation to current instance for each object.
@@ -61,6 +57,7 @@ def findRowApproximation(row1, row2):
     jac = 0
     totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 4.0
     return totalApproximation
+
 
 def getSMCProximity(row1, row2):
     # Need to determine you can compare strings in python this way
@@ -119,12 +116,14 @@ def getSMCProximity(row1, row2):
 
 
 def getEuclidianProximation(row1, row2):
-    fnlwgt95 = 378460.0 #This is the 95th percentile value for the fnlwgt attribute
-    weeklyHours95 = 60.0 #This is the 95th percentile value for the hours per week attribute
-    #These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
+    fnlwgt95 = 378460.0  # This is the 95th percentile value for the fnlwgt attribute
+    weeklyHours95 = 60.0  # This is the 95th percentile value for the hours per week attribute
+    # These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
 
-    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt95) - (float(row2[3]) / fnlwgt95))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours95) - (float(row2[13]) / weeklyHours95))**2 
+    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt95) - (float(row2[3]) / fnlwgt95))**2 + (
+        (float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours95) - (float(row2[13]) / weeklyHours95))**2
     return math.sqrt(euc)
+
 
 def getJaccardProximation(row1, row2):
     M01 = 0
@@ -151,6 +150,7 @@ def getJaccardProximation(row1, row2):
 
 # Function Definition
 
+
 def getFormattedResults(approximationMatrix, k):
     results = []
     header = ["Transaction ID"]
@@ -169,7 +169,8 @@ def getFormattedResults(approximationMatrix, k):
         IDList = []
         kIndex = 0
         while kIndex < k:
-            sizeKRow.append(sortedRow[kIndex + 1]) #doing plus one will exclude the proximation to itself
+            # doing plus one will exclude the proximation to itself
+            sizeKRow.append(sortedRow[kIndex + 1])
             kIndex = kIndex + 1
         counter = 0
         while counter < len(sizeKRow):
@@ -189,6 +190,7 @@ def getFormattedResults(approximationMatrix, k):
         outerCounter = outerCounter + 1
     return results
 
+
 def printResults(results):
     with open("output.csv", "wb") as f:
         writer = csv.writer(f)
@@ -198,9 +200,11 @@ def printResults(results):
 
 
 def main():
-    k = defineK()
+    # k = input('Enter a value for K: ')
+    k = int(sys.argv[1])
     data = getCSVData()
     generateApproximationMatrix(k, data)
+
 
 if __name__ == "__main__":
     main()
