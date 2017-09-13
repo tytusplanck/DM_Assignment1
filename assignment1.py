@@ -180,9 +180,9 @@ def getFormattedResults(approximationMatrix, k):
                 x = x + 1
             counter = counter + 1
         y = 0
-        singleResultsRow = [outerCounter]
+        singleResultsRow = [outerCounter + 1]
         while y < len(IDList):
-            singleResultsRow.append(IDList[y])
+            singleResultsRow.append(IDList[y] + 1)
             singleResultsRow.append(sizeKRow[y])
             y = y + 1
         results.append(singleResultsRow)
