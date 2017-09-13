@@ -163,7 +163,7 @@ def getFormattedResults(approximationMatrix, k):
     outerCounter = 0
     while outerCounter < len(approximationMatrix):
 
-        sortedRow = approximationMatrix[outerCounter]
+        sortedRow = approximationMatrix[outerCounter][:]
         sortedRow.sort()
         sizeKRow = []
         IDList = []
@@ -175,8 +175,8 @@ def getFormattedResults(approximationMatrix, k):
         while counter < len(sizeKRow):
             x = 0
             while x < len(sortedRow):
-                if sizeKRow[counter] == sortedRow[x]:
-                    IDList.append(counter)
+                if sizeKRow[counter] == approximationMatrix[outerCounter][x]:
+                    IDList.append(x)
                 x = x + 1
             counter = counter + 1
         y = 0
