@@ -55,11 +55,9 @@ def approximateOneInstance(data, index):
 # Function Definition
 def findRowApproximation(row1, row2):
     smc = getSMCProximity(row1, row2)
-    smc = 0
     euc = getEuclidianProximation(row1, row2)
     jac = getJaccardProximation(row1, row2)
-    jac = 0
-    totalApproximation = ((8 * smc) + (4 * euc) + (2 * jac)) / 4.0
+    totalApproximation = ((7 * smc) + (4 * euc) + (2 * jac)) / 13.0
     return totalApproximation
 
 def getSMCProximity(row1, row2):
@@ -107,11 +105,6 @@ def getSMCProximity(row1, row2):
         total = total + 1
     else:
         total = total + 1
-    if (row1[15] == row2[15]):
-        match = match + 1
-        total = total + 1
-    else:
-        total = total + 1
 
     return 1 - (match / total)  # Calculates the SMC Proximation
 
@@ -119,11 +112,11 @@ def getSMCProximity(row1, row2):
 
 
 def getEuclidianProximation(row1, row2):
-    fnlwgt95 = 378460.0 #This is the 95th percentile value for the fnlwgt attribute
-    weeklyHours95 = 60.0 #This is the 95th percentile value for the hours per week attribute
+    fnlwgt98 = 378460.0 #This is the 98th percentile value for the fnlwgt attribute
+    weeklyHours98 = 60.0 #This is the 98th percentile value for the hours per week attribute
     #These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
 
-    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt95) - (float(row2[3]) / fnlwgt95))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours95) - (float(row2[13]) / weeklyHours95))**2 
+    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt98) - (float(row2[3]) / fnlwgt98))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours98) - (float(row2[13]) / weeklyHours98))**2 
     return math.sqrt(euc)
 
 def getJaccardProximation(row1, row2):
