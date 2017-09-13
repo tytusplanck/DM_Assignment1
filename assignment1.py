@@ -200,7 +200,6 @@ def printResults(results):
 
 
 def main():
-    # k = input('Enter a value for K: ')
     k = int(sys.argv[1])
     data = getCSVData()
     generateApproximationMatrix(k, data)
