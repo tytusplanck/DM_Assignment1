@@ -5,7 +5,7 @@ import math
 import sys
 
 
-# Function Definition
+# Function Definition for getCSVData
 def getCSVData():
     data = []
     with open('income_tr.csv', 'rb') as csvfile:
@@ -18,9 +18,9 @@ def getCSVData():
     return data
 
 
-# Function Definition
+# Function Definition for generateApproximationMatrix
 def generateApproximationMatrix(k, data):
-    # This will call the function that will find all approximations for one instance. It will loop this so it can have an array of approximations for all instances.
+    # This calls the function that will find all approximations for one instance. It loops this so it can have an array of approximations for all instances.
     index = 1
     approximationMatrix = []
     resultsMatrix = []
@@ -31,9 +31,8 @@ def generateApproximationMatrix(k, data):
     printResults(resultsMatrix)
     return approximationMatrix  # returns array of approximations for each
 
-# Will Take one instance and find all of the approximations to the other instances
 
-
+# Takes one instance and finds all of the approximations to the other instances
 def approximateOneInstance(data, index):
     instanceIndex = 1
     # Array of 520 floats containing the approximation to current instance for each object.
@@ -42,14 +41,13 @@ def approximateOneInstance(data, index):
         approximationArray.append(findRowApproximation(
             data[instanceIndex], data[index]))
         instanceIndex = instanceIndex + 1
-    # Will return an array of the approximation of each instance to the current one
+    # Returns an array of the approximation of each instance to the current one
     return approximationArray
 
-# Takes one row of the table and finds it's approximation to the other.
 
-
-# Function Definition
+# Function Definition for findRowApproximation
 def findRowApproximation(row1, row2):
+    # Takes one row of the table and finds it's approximation to the other.
     smc = getSMCProximity(row1, row2)
     euc = getEuclidianProximation(row1, row2)
     jac = getJaccardProximation(row1, row2)
@@ -58,7 +56,6 @@ def findRowApproximation(row1, row2):
 
 
 def getSMCProximity(row1, row2):
-    # Need to determine you can compare strings in python this way
     match = 0.0
     total = 0.0
     # Finds match and total values for SMC algorithm
@@ -105,19 +102,20 @@ def getSMCProximity(row1, row2):
 
     return 1 - (match / total)  # Calculates the SMC Proximation
 
-# Function Definition
 
-
+# Function Definition for getEuclidianProximation
 def getEuclidianProximation(row1, row2):
-    fnlwgt98 = 378460.0 #This is the 98th percentile value for the fnlwgt attribute
-    weeklyHours98 = 60.0 #This is the 98th percentile value for the hours per week attribute
-    #These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
+    fnlwgt98 = 378460.0  # This is the 98th percentile value for the fnlwgt attribute
+    weeklyHours98 = 60.0  # This is the 98th percentile value for the hours per week attribute
+    # These two attributes have outliers, so dividing the data set by the maximum can make things appear closer in proximity then they actually are if we sue an outlier.
 
-    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt98) - (float(row2[3]) / fnlwgt98))**2 + ((float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours98) - (float(row2[13]) / weeklyHours98))**2 
+    euc = ((float(row1[1]) / 82.0) - (float(row2[1]) / 82.0))**2 + ((float(row1[3]) / fnlwgt98) - (float(row2[3]) / fnlwgt98))**2 + (
+        (float(row1[5]) / 16.0) - (float(row2[5]) / 16.0))**2 + ((float(row1[13]) / weeklyHours98) - (float(row2[13]) / weeklyHours98))**2
     return math.sqrt(euc)
 
 
 def getJaccardProximation(row1, row2):
+    # Finds the Jaccard Proximation by adding up the matches for the 2x2 matrix.
     M01 = 0
     M10 = 0
     M11 = 0
@@ -140,9 +138,8 @@ def getJaccardProximation(row1, row2):
 
     return jaccard
 
-# Function Definition
 
-
+# Function Definition for getFormattedResults
 def getFormattedResults(approximationMatrix, k):
     results = []
     header = ["Transaction ID"]
@@ -184,11 +181,10 @@ def getFormattedResults(approximationMatrix, k):
 
 
 def printResults(results):
+    # Outputs the results calculated to a CSV file.
     with open("output.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(results)
-
-# Function Definition
 
 
 def main():
